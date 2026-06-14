@@ -2,6 +2,8 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const { onRequest } = require("firebase-functions/v2/https");
+
 const dotenv = require("dotenv");
 const dns = require("dns");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -67,10 +69,15 @@ app.use(errorHandler);
 initializeSocket(io);
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => {
-  console.log(
-    `🚀 Server running on http://localhost:${PORT} [${process.env.NODE_ENV || "development"}]`
-  );
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.FUNCTION_NAME) {
+  const PORT = process.env.PORT || 5000;
+  httpServer.listen(PORT, () => {
+    console.log(
+      `🚀 Server running on http://localhost:${PORT} [${process.env.NODE_ENV || "development"}]`
+    );
+  });
+}
+
+exports.api = onRequest({ region: 'us-central1', memory: '1GiB', timeoutSeconds: 60 }, app);
+
 
