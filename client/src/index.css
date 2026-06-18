@@ -1,5 +1,5 @@
-/* Google Font */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+/* Google Font — Inter */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 /* Tailwind */
 @tailwind base;
@@ -17,69 +17,475 @@
 html {
   font-family: "Inter", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  @apply bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  @apply bg-wa-bg text-gray-900;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* ─── Scrollbar ────────────────────────────────────────────── */
+.dark body,
+html.dark body {
+  @apply bg-wa-dark-bg text-gray-100;
+}
+
+/* ─── Scrollbar (WhatsApp-style thin) ──────────────────────── */
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply bg-gray-300 rounded-full;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-gray-600;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
 }
 
 /* ─── Custom Components ────────────────────────────────────── */
 
 @layer components {
-
   .glass {
-    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-white/20 dark:border-gray-700/50;
+    @apply bg-white/80 backdrop-blur-xl border border-white/20;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+  .dark .glass {
+    @apply bg-wa-dark-sidebar/90 border-wa-dark-border/50;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .btn-primary {
-    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium px-4 py-2 rounded-xl
-           transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700
+           text-white font-semibold px-5 py-2.5 rounded-xl
+           transition-all duration-300 ease-out
+           active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed
+           shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/30;
   }
 
   .btn-ghost {
-    @apply hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300
-           font-medium px-4 py-2 rounded-xl transition-all duration-200 active:scale-95;
+    @apply hover:bg-gray-100 text-gray-600
+           font-medium px-3 py-2 rounded-xl
+           transition-all duration-200 active:scale-95;
+  }
+  .dark .btn-ghost {
+    @apply hover:bg-wa-dark-hover text-gray-300;
   }
 
   .input-field {
-    @apply w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700
-           bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
-           placeholder-gray-400 dark:placeholder-gray-500
-           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
-           transition-all duration-200;
+    @apply w-full px-4 py-3 rounded-xl
+           border border-gray-200
+           bg-white text-gray-900
+           placeholder-gray-400
+           focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+           transition-all duration-300;
+  }
+  .dark .input-field {
+    @apply border-wa-dark-border bg-wa-dark-input text-gray-100 placeholder-gray-500;
   }
 
+  /* ─── WhatsApp Chat Wallpaper ────────────────────────────── */
+  .chat-wallpaper {
+    background-color: #EFEAE2;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c3b8' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .dark .chat-wallpaper {
+    background-color: #0B141A;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* ─── WhatsApp-style Message Bubbles ─────────────────────── */
+  .bubble-outgoing {
+    @apply bg-wa-outgoing text-gray-900 rounded-lg rounded-tr-none;
+    position: relative;
+  }
+  .dark .bubble-outgoing {
+    @apply bg-wa-dark-outgoing text-gray-100;
+  }
+  .bubble-outgoing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid #D9FDD3;
+    border-bottom: 8px solid transparent;
+  }
+  .dark .bubble-outgoing::before {
+    border-left-color: #005C4B;
+  }
+  .bubble-incoming {
+    @apply bg-wa-incoming text-gray-900 rounded-lg rounded-tl-none;
+    position: relative;
+  }
+  .dark .bubble-incoming {
+    @apply bg-wa-dark-incoming text-gray-100;
+  }
+  .bubble-incoming::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-right: 8px solid #FFFFFF;
+    border-bottom: 8px solid transparent;
+  }
+  .dark .bubble-incoming::before {
+    border-right-color: #202C33;
+  }
 }
 
-/* ─── Typing Indicator Dots ─────────────────────────────────── */
+/* ─── PREMIUM ANIMATION CLASSES ─────────────────────────────── */
 
+/* Staggered character reveal */
+.char-reveal span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) rotateX(90deg);
+  animation: charReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes charReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* Magnetic hover effect */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.magnetic:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* 3D tilt card */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.4s ease;
+}
+.tilt-card:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(10px);
+}
+
+/* Blur-in text */
+.blur-in {
+  animation: blurIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes blurIn {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(15px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Clip reveal (bottom to top) */
+.clip-reveal {
+  animation: clipReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  clip-path: inset(100% 0 0 0);
+}
+@keyframes clipReveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Slide-mask reveal */
+.mask-reveal {
+  overflow: hidden;
+}
+.mask-reveal > * {
+  animation: maskSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(100%);
+}
+@keyframes maskSlideUp {
+  to { transform: translateY(0); }
+}
+
+/* Morphing gradient background */
+.morph-bg {
+  background: linear-gradient(-45deg, #0a1628, #0d2137, #0a2a2a, #0d1f1a, #0a1628);
+  background-size: 400% 400%;
+  animation: morphGradient 12s ease infinite;
+}
+@keyframes morphGradient {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 100% 0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Neon glow pulse */
+.neon-glow {
+  animation: neonPulse 2.5s ease-in-out infinite alternate;
+}
+@keyframes neonPulse {
+  0%   { text-shadow: 0 0 5px rgba(0,168,132,0.3), 0 0 20px rgba(0,168,132,0.15); }
+  100% { text-shadow: 0 0 15px rgba(0,168,132,0.5), 0 0 40px rgba(0,168,132,0.3), 0 0 80px rgba(0,168,132,0.1); }
+}
+
+/* Border beam / scanning effect */
+.border-beam {
+  position: relative;
+  overflow: hidden;
+}
+.border-beam::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -50%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00A884, transparent);
+  animation: borderBeam 3s linear infinite;
+}
+@keyframes borderBeam {
+  0%   { left: -50%; }
+  100% { left: 150%; }
+}
+
+/* Subtle breathing scale */
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+/* Floating Y axis */
+.float-y {
+  animation: floatY 5s ease-in-out infinite;
+}
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-15px); }
+}
+
+/* Rotating border gradient */
+.rotating-border {
+  position: relative;
+  z-index: 0;
+}
+.rotating-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, #00A884, #25D366, #00A884, transparent, #00A884);
+  animation: rotateBorder 4s linear infinite;
+  z-index: -1;
+  opacity: 0.5;
+}
+@keyframes rotateBorder {
+  to { transform: rotate(360deg); }
+}
+
+/* Typewriter cursor blink */
+.cursor-blink::after {
+  content: '|';
+  animation: cursorBlink 1s step-end infinite;
+  color: #00A884;
+  font-weight: 100;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* Staggered list entrance */
+.stagger-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: staggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes staggerIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Liquid button effect */
+.liquid-btn {
+  position: relative;
+  overflow: hidden;
+}
+.liquid-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+.liquid-btn:hover::before {
+  width: 300%;
+  height: 300%;
+}
+
+/* Shine sweep effect */
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shine-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  animation: shineSweep 3s ease-in-out infinite;
+}
+@keyframes shineSweep {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ─── Gradient text ─────────────────────────────────────────── */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-wa-green-light to-primary-300;
+  background-size: 200% auto;
+  animation: shimmerText 3s linear infinite;
+}
+@keyframes shimmerText {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Glow text */
+.glow-text {
+  text-shadow: 0 0 40px rgba(0,168,132,0.3), 0 0 80px rgba(0,168,132,0.15);
+}
+
+.glow-border {
+  box-shadow: 0 0 0 1px rgba(0,168,132,0.2), 0 0 15px -3px rgba(0,168,132,0.15);
+}
+
+/* ─── Floating Particles Background ─────────────────────────── */
+.particles-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,168,132,0.2) 0%, transparent 70%);
+}
+
+/* ─── WhatsApp-style header ─────────────────────────────────── */
+.wa-header {
+  @apply bg-wa-header border-b border-gray-200;
+}
+.dark .wa-header {
+  @apply bg-wa-dark-header border-b border-wa-dark-border;
+}
+
+/* ─── Hover lift ────────────────────────────────────────────── */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px -8px rgba(0,0,0,0.15);
+}
+
+/* ─── Typing dots ───────────────────────────────────────────── */
 .typing-dot:nth-child(1) { animation-delay: 0s; }
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-/* ─── Message Animations ────────────────────────────────────── */
-
+/* ─── Entrance animations ───────────────────────────────────── */
 .message-enter {
-  animation: slideUp 0.25s ease-out forwards;
+  animation: msgEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes msgEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }
 
-/* ─── Route Transitions ─────────────────────────────────────── */
-
 .page-enter {
-  animation: fadeIn 0.2s ease-out forwards;
+  animation: pageEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ─── Focus ring ────────────────────────────────────────────── */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2;
+}
+.dark .focus-ring {
+  @apply focus:ring-offset-wa-dark-bg;
+}
+
+/* ─── Ripple on click ───────────────────────────────────────── */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,168,132,0.2) 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s;
+}
+.ripple-effect:active::after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;
 }

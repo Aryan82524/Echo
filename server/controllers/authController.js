@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // @desc    Register a new user
 // @route   POST /api/auth/signup
 // @access  Public
@@ -127,8 +129,8 @@ const searchUsers = async (req, res) => {
     const users = await User.find({
       _id: { $ne: req.user._id }, // Exclude self
       $or: [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
+        { name: { $regex: escapeRegex(search), $options: "i" } },
+        { email: { $regex: escapeRegex(search), $options: "i" } },
       ],
     }).select("_id name email avatar isOnline lastSeen").limit(10);
 

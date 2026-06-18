@@ -2,11 +2,11 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const helmet = require("helmet");
+const compression = require("compression");
 const { onRequest } = require("firebase-functions/v2/https");
 
 const dotenv = require("dotenv");
-const dns = require("dns");
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dotenv.config();
 
 const connectDB = require("./config/db");
@@ -40,6 +40,10 @@ app.use((req, _res, next) => {
   req.io = io;
   next();
 });
+
+// ─── Security & Performance Middleware ────────────────────────────────────────
+app.use(helmet());
+app.use(compression());
 
 // ─── Core Middleware ──────────────────────────────────────────────────────────
 app.use(
@@ -80,4 +84,22 @@ if (process.env.NODE_ENV !== 'production' || !process.env.FUNCTION_NAME) {
 
 exports.api = onRequest({ region: 'us-central1', memory: '1GiB', timeoutSeconds: 60 }, app);
 
+// ─── Graceful Shutdown ────────────────────────────────────────────────────────
+const gracefulShutdown = (signal) => {
+  console.log(`\n${signal} received. Shutting down gracefully...`);
+  httpServer.close(() => {
+    console.log("HTTP server closed.");
+    io.close(() => {
+      console.log("Socket.io server closed.");
+      process.exit(0);
+    });
+  });
+  // Force shutdown after 10 seconds
+  setTimeout(() => {
+    console.error("Forced shutdown after timeout.");
+    process.exit(1);
+  }, 10000);
+};
 
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
