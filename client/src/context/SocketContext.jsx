@@ -32,7 +32,8 @@ export const SocketProvider = ({ children }) => {
     // Avoid duplicate connections
     if (socketRef.current?.connected) return;
 
-    const socket = io(window.location.origin.replace("5173", "5000"), {
+    const serverUrl = import.meta.env.VITE_SERVER_URL || window.location.origin.replace("5173", "5000");
+    const socket = io(serverUrl, {
       auth: { token: user.token },
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5,
